@@ -1,0 +1,3 @@
+[submodule "track-description"]
+	path = submodules/track-description
+	url = https://github.com/CAuDri/track-description.git
