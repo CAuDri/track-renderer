@@ -19,6 +19,7 @@ from ..diagnostics import Diagnostic
 from ..svg import SvgDocument, write_metadata
 from ..svg.geometry import map_transform
 from .records import PhysicalPart, TrackObject
+from .schema_refs import relative_schema_refs
 from .types import GeometryData, GeometryKind, PathData, RegionData, SymbolData
 
 SVG = "http://www.w3.org/2000/svg"
@@ -175,6 +176,10 @@ class DrawingBuilder:
             )
             assets[identifier] = {key: value for key, value in asset.items() if key != "content"}
 
+        objects = {key: asdict(value) for key, value in sorted(self.objects.items())}
+        for obj in objects.values():
+            obj["provenance"] = relative_schema_refs(obj["provenance"], self.schema_uri)
+
         metadata = {
             "track_id": self.track_id,
             "schema_uri": self.schema_uri,
@@ -187,9 +192,11 @@ class DrawingBuilder:
                 "positive_yaw": "counter_clockwise",
             },
             "complete": self.complete,
-            "validation": self.validation,
-            "diagnostics": [diagnostic.to_dict() for diagnostic in self.diagnostics],
-            "objects": {key: asdict(value) for key, value in sorted(self.objects.items())},
+            "validation": relative_schema_refs(self.validation, self.schema_uri),
+            "diagnostics": relative_schema_refs(
+                [diagnostic.to_dict() for diagnostic in self.diagnostics], self.schema_uri
+            ),
+            "objects": objects,
             "parts": {key: asdict(value) for key, value in sorted(self.parts.items())},
             "assets": assets,
             "dependencies": sorted(
