@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "track-renderer"
+version = "0.1.0"
+description = "Semantic SVG drawings from CAuDri Track Descriptions"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "CAuDri e.V."}]
+requires-python = ">=3.11"
+dependencies = [
+    "PyYAML>=6,<7",
+    "jsonschema>=4.18,<5",
+    "referencing>=0.30,<1",
+    "Shapely>=2,<3",
+    "segno>=1.6,<2",
+    "tinycss2>=1.2,<2",
+]
+
+[project.optional-dependencies]
+image = ["CairoSVG>=2.7,<3", "Pillow>=10"]
+dev = ["pytest>=8", "ruff>=0.11"]
+
+[project.scripts]
+track-render = "track_renderer.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["source/track_renderer"]
+
+# Bundle the pinned resources so installed wheels work without a checkout.
+[tool.hatch.build.targets.wheel.force-include]
+"submodules/track-description/caudri-track.schema.yaml" = "track_renderer/resources/track-description/caudri-track.schema.yaml"
+"submodules/track-description/catalog.yaml" = "track_renderer/resources/track-description/catalog.yaml"
+"submodules/track-description/regulations.yaml" = "track_renderer/resources/track-description/regulations.yaml"
+"submodules/track-description/LICENSE" = "track_renderer/resources/track-description/LICENSE"
+"submodules/track-description/scripts" = "track_renderer/resources/track-description/scripts"
+"submodules/track-description/assets" = "track_renderer/resources/track-description/assets"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/source/track_renderer",
+    "/docs/*.md",
+    "/docs/img/*.png",
+    "/docs/img/*.svg",
+    "/docs/examples/*.yaml",
+    "/docs/examples/*.svg",
+    "/docs/examples/*.py",
+    "/examples/*.yaml",
+    "/examples/*.py",
+]
+exclude = ["**/*.preview.svg"]
+
+# Preserve source paths so the archive can build a wheel independently.
+[tool.hatch.build.targets.sdist.force-include]
+"submodules/track-description/caudri-track.schema.yaml" = "submodules/track-description/caudri-track.schema.yaml"
+"submodules/track-description/catalog.yaml" = "submodules/track-description/catalog.yaml"
+"submodules/track-description/regulations.yaml" = "submodules/track-description/regulations.yaml"
+"submodules/track-description/LICENSE" = "submodules/track-description/LICENSE"
+"submodules/track-description/scripts" = "submodules/track-description/scripts"
+"submodules/track-description/assets" = "submodules/track-description/assets"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["source"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["source"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B"]
