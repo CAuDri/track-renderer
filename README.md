@@ -164,7 +164,7 @@ print(saved.track_id, len(saved.objects), saved.bounds())
 
 ## Output format
 
-The generated SVG contains a `metadata` element with a JSON object that describes the track and its objects similar to the source description. 
+The generated SVG contains `metadata` that describes the track and its components similar to the source track description. 
 
 Downstream tools can use this metadata to relate geometry back to owning sections, elements and physical objects (i.e. which section or element does this paticular surface marking belong to).
 
