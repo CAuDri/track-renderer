@@ -1,0 +1,33 @@
+{
+    "search.followSymlinks": false,
+    "npm.autoDetect": "off",
+    "workbench.editor.revealIfOpen": true,
+    "workbench.editorAssociations": {
+        "*.preview.svg": "svgPreviewer.customEditor"
+    },
+    "triggerTaskOnSave.tasks": {
+        "Track Renderer: Render active track": [
+            "!**/.vscode/**",
+            "!**/.venv/**",
+            "**/*.{yaml,yml,json}"
+        ]
+    },
+    "triggerTaskOnSave.restart": false,
+    "triggerTaskOnSave.delay": 200,
+    "triggerTaskOnSave.showStatusBarToggle": true,
+    "triggerTaskOnSave.showNotifications": false,
+    "actionButtons": {
+        "defaultColor": "none",
+        "reloadButton": null,
+        "commands": [
+            {
+                "name": "$(play) Track Preview",
+                "tooltip": "Render the active track and open its SVG preview after a successful build",
+                "color": "green",
+                "useVsCodeApi": true,
+                "command": "workbench.action.tasks.runTask",
+                "args": ["Track Renderer: Preview active track"]
+            }
+        ]
+    }
+}
