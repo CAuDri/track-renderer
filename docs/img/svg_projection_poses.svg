@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="580" viewBox="0 0 1000 580" role="img" aria-labelledby="guide-title guide-description" font-family="DejaVu Sans, sans-serif">
+  <title id="guide-title">A panel pose with optional projections disabled</title>
+  <desc id="guide-description">Actual west_approach geometry with projections disabled. The pink handle marks sign_forward's unchanged physical panel pose from SVG metadata. The handle and labels are guide annotations, not exported geometry.</desc>
+  <defs>
+    </defs>
+  <g transform="translate(60 300) scale(290)">
+    <g id="map" transform="scale(1,-1)">
+      <g id="layer-0" data-layer="0">
+        <g id="geometry-951a1e22337cb14e47bc2d9cf8fc9553c01ba5520490db89de24410d87c266ec" data-geometry-id="/sections/west_approach#road_surface" data-object-id="/sections/west_approach" data-role="road_surface" data-purpose="physical" data-section-id="/sections/west_approach">
+          <path d="M2.9391523179536474e-17 0.48 L3.0 0.48 L3.0 -0.48 L-2.9391523179536474e-17 -0.48 Z" fill="#1A1A1A" fill-rule="evenodd" />
+        </g>
+      </g>
+      <g id="layer-10" data-layer="10">
+        <g id="geometry-1984fc50186b6af7052615a814017a0b0d381b2b674c10f18da627a431e30c8a" data-geometry-id="/sections/west_approach/zones/no_overtaking#selection/0/0" data-object-id="/sections/west_approach/zones/no_overtaking" data-role="selection/0/0" data-purpose="selection" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach" data-placement-section-id="/sections/west_approach" opacity="0" pointer-events="all">
+          <path d="M0.20000000000000004 0.48 L2.8 0.48 L2.8 -0.48 L0.20000000000000015 -0.48 Z" fill="#000000" fill-rule="evenodd" />
+        </g>
+      </g>
+      <g id="layer-20" data-layer="20">
+        <g id="geometry-347dbef2dc83aaf418904bccc250bfebccd56706bd2e3f6722be701e04bee42c" data-geometry-id="/sections/west_approach#centerline/1/0/0" data-object-id="/sections/west_approach" data-role="centerline/1/0/0" data-purpose="physical" data-section-id="/sections/west_approach" data-source-ids="[&quot;/sections/west_approach/zones/no_overtaking&quot;]">
+          <polyline points="0.2 -0.02 0.8499999999999999 -0.02" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-b36549fedf7da35e79b0a0a9f97cc9265d4942bcf4d0fd5557484a1255f35c4d" data-geometry-id="/sections/west_approach#centerline/1/1/0" data-object-id="/sections/west_approach" data-role="centerline/1/1/0" data-purpose="physical" data-section-id="/sections/west_approach" data-source-ids="[&quot;/sections/west_approach/zones/no_overtaking&quot;]">
+          <polyline points="0.2 0.02 0.8499999999999999 0.02" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-0731f93fb10960dcfe287ca1781b3eaf9446da3f32ebfba812a3fd105c6161e6" data-geometry-id="/sections/west_approach#centerline/3/0/0" data-object-id="/sections/west_approach" data-role="centerline/3/0/0" data-purpose="physical" data-section-id="/sections/west_approach" data-source-ids="[&quot;/sections/west_approach/zones/no_overtaking&quot;]">
+          <polyline points="1.5499999999999998 -0.02 2.8 -0.02" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-e629f3832e8ebe196b7004745855df13fde683d274f31fa7d484e44e4fb1261a" data-geometry-id="/sections/west_approach#centerline/3/1/0" data-object-id="/sections/west_approach" data-role="centerline/3/1/0" data-purpose="physical" data-section-id="/sections/west_approach" data-source-ids="[&quot;/sections/west_approach/zones/no_overtaking&quot;]">
+          <polyline points="1.5499999999999998 0.02 2.8 0.02" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-c6c83c7a08979b19d0bf074c6fecb47087049dc1b9b877d37d94eb0347a71220" data-geometry-id="/sections/west_approach#left_boundary/0/0" data-object-id="/sections/west_approach" data-role="left_boundary/0/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="2.8779199779962804e-17 0.47000000000000003 0.20000000000000004 0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-e02c0a21c43310d93534036b695b4775a5d6a00b581de873ac9da09c6cf44abb" data-geometry-id="/sections/west_approach#left_boundary/1/0" data-object-id="/sections/west_approach" data-role="left_boundary/1/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="0.20000000000000004 0.47000000000000003 0.8499999999999999 0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-40340216827ede0b07f7a9aac4bebbefafebc92af03f1e28030bb6a5bca3dc52" data-geometry-id="/sections/west_approach#left_boundary/2/0" data-object-id="/sections/west_approach" data-role="left_boundary/2/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="0.85 0.47000000000000003 1.5499999999999998 0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-4539c17723ad69bb39c7111d2a15e67c357e146771c147614e8974030bcecd49" data-geometry-id="/sections/west_approach#left_boundary/3/0" data-object-id="/sections/west_approach" data-role="left_boundary/3/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="1.5499999999999998 0.47000000000000003 2.8 0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-edc7af1028a0c13c610a8907f9582946d04975f475c6869aa361cba75cbb7620" data-geometry-id="/sections/west_approach#left_boundary/4/0" data-object-id="/sections/west_approach" data-role="left_boundary/4/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="2.8 0.47000000000000003 3.0 0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-45bc01bf79e054f49fe7c86901636e59df8ce28c5f1e70e571857421985f2944" data-geometry-id="/sections/west_approach#right_boundary/0/0" data-object-id="/sections/west_approach" data-role="right_boundary/0/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="-2.8779199779962804e-17 -0.47000000000000003 0.19999999999999998 -0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-12b4c254cbcef986864b3326b0b0e6f65103237c824cea9c59968498479b3d2c" data-geometry-id="/sections/west_approach#right_boundary/1/0" data-object-id="/sections/west_approach" data-role="right_boundary/1/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="0.19999999999999998 -0.47000000000000003 0.8499999999999999 -0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-67b7f627ee505ec28fdbc5658490df96ae009fcd94fdbae2bd4478693c0bde06" data-geometry-id="/sections/west_approach#right_boundary/2/0" data-object-id="/sections/west_approach" data-role="right_boundary/2/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="0.85 -0.47000000000000003 1.5499999999999998 -0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-95640118f4806ee0a214215e9a44bd889e3e81ec8c81d1168465d628748841ba" data-geometry-id="/sections/west_approach#right_boundary/3/0" data-object-id="/sections/west_approach" data-role="right_boundary/3/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="1.5499999999999998 -0.47000000000000003 2.8 -0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+        <g id="geometry-55c8da8f96c0a6e8fff86854cfcd2207a79871bc76b501db29c1679f84893492" data-geometry-id="/sections/west_approach#right_boundary/4/0" data-object-id="/sections/west_approach" data-role="right_boundary/4/0" data-purpose="physical" data-section-id="/sections/west_approach">
+          <polyline points="2.8 -0.47000000000000003 3.0 -0.47000000000000003" fill="none" stroke="#FFFFFF" stroke-width="0.02" stroke-linecap="butt" stroke-linejoin="round" />
+        </g>
+      </g>
+      <g id="layer-30" data-layer="30">
+        <g id="geometry-382cca1a529fd328a81edd52c3cb89c0d3443dc806a1bd27606817ee44a5e55b" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/0" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/0" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 -0.45999999999999996 L1.4 -0.45999999999999996 L1.4 -0.42 L1.0 -0.42 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-e8d8bbe2ead42fbe569fe667c5de6988618ea1f6cf8f409645e878ba58481d08" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/1" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/1" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 -0.37999999999999995 L1.4 -0.37999999999999995 L1.4 -0.33999999999999997 L1.0 -0.33999999999999997 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-dc3885b7bf419c606fce5cda34f015588b9054b47736f2ed42a40b7d6cf648d0" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/10" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/10" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 0.3400000000000001 L1.4 0.3400000000000001 L1.4 0.38000000000000006 L1.0 0.38000000000000006 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-d26f646b262a8b80cd5753c117d2845420e26eb606b99af75838d94d117179a8" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/11" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/11" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 0.42000000000000004 L1.4 0.42000000000000004 L1.4 0.46 L1.0 0.46 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-db30de8268e881691d04489597f2856ff040d3e78e9a0a726f47730be936d328" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/2" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/2" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 -0.29999999999999993 L1.4 -0.29999999999999993 L1.4 -0.25999999999999995 L1.0 -0.25999999999999995 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-a79341b3bb1885247614507fa82ef76bc708dd260f96cdd4a2a229db2ebd6551" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/3" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/3" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 -0.21999999999999997 L1.4 -0.21999999999999997 L1.4 -0.17999999999999997 L1.0 -0.17999999999999997 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-c6fa9ed79ede9453aea693f4a1e34c40942b39c6f5bc4e0d3246e0814df06ec4" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/4" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/4" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 -0.13999999999999996 L1.4 -0.13999999999999996 L1.4 -0.09999999999999995 L1.0 -0.09999999999999995 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-3fc09bc0edca5e843ae33c9760ed9670004244ead8173c6256f2f243c147f0b4" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/5" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/5" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 -0.05999999999999994 L1.4 -0.05999999999999994 L1.4 -0.01999999999999994 L1.0 -0.01999999999999994 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-9f157ff67c5923e871b43463f0903ea0ee4fd1ee5d60a417dae92ca0057fce51" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/6" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/6" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 0.020000000000000018 L1.4 0.020000000000000018 L1.4 0.06000000000000002 L1.0 0.06000000000000002 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-f1ac77a189a49bf2a4df0e028e7956fc1c61edca9928f4d88c2524d1bfb93934" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/7" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/7" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 0.10000000000000009 L1.4 0.10000000000000009 L1.4 0.1400000000000001 L1.0 0.1400000000000001 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-36b475a44eae7f8e2785020188b78fcc921a3f3743936d32f735b81a1aa68e77" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/8" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/8" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 0.18000000000000005 L1.4 0.18000000000000005 L1.4 0.22000000000000006 L1.0 0.22000000000000006 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+        <g id="geometry-e336a07cc0215fc088dbb53860399d7d33ab88779de0a0efd500dd298eee9022" data-geometry-id="/sections/west_approach/elements/crosswalk#stripe/9" data-object-id="/sections/west_approach/elements/crosswalk" data-role="stripe/9" data-purpose="physical" data-section-id="/sections/west_approach" data-parent-id="/sections/west_approach">
+          <path d="M1.0 0.26 L1.4 0.26 L1.4 0.3 L1.0 0.3 Z" fill="#FFFFFF" fill-rule="evenodd" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="682" y="70" fill="#6B7D8E" font-size="27" font-weight="600">Projections off</text>
+  <circle cx="263.0" cy="489.95000000000005" r="28" fill="none" stroke="#BC3D7B" stroke-width="2.5" />
+  <path d="M 228.0 489.95000000000005 H 298.0 M 263.0 454.95000000000005 V 524.95" fill="none" stroke="#BC3D7B" stroke-width="2" />
+  <path d="M 283.0 509.95000000000005 L 307.0 533.95" fill="none" stroke="#BC3D7B" stroke-width="2" />
+  <text x="316.0" y="550.95" fill="#BC3D7B" font-size="27" font-weight="600">Panel pose</text>
+</svg>
