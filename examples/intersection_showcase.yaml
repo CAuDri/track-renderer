@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=../submodules/track-description/caudri-track.schema.yaml
+id: intersection_showcase
+$schema: ../submodules/track-description/caudri-track.schema.yaml
+root:
+  section: west_approach
+  port: entry
+  map_orientation: 0
+metadata:
+  name: Intersection geometry showcase
+  description: Non-compliance geometry example for the flexible renderer API.
+road:
+  lane_width: 0.40
+  marking_width: 0.020
+  rendering:
+    surface_color: "#1A1A1A"
+  centerline: dashed
+  left_boundary: solid
+  right_boundary: solid
+sections:
+  west_approach:
+    type: straight
+    parameters: {length: 1.5}
+    road: {lane_width: 0.45}
+    elements: {start_box: false, starting_line: false}
+  crossing:
+    type: intersection
+    parameters:
+      layout: stop
+      angle: 100
+      port_distance: 1.0
+      corner_radius: 0.10
+      controlled_ports: [straight, right]
+      mandatory_turn: [entry, left]
+  north_exit:
+    type: straight
+    parameters: {length: 1.2}
+    road: {lane_width: 0.4}
+  east_exit:
+    type: straight
+    parameters: {length: 1.2}
+    road: {lane_width: 0.40}
+  south_exit:
+    type: straight
+    parameters: {length: 1.2}
+    road: {lane_width: 0.40}
+connections:
+  - [west_approach.exit, crossing.entry]
+  - [crossing.left, north_exit.entry]
+  - [crossing.straight, east_exit.entry]
+  - [crossing.right, south_exit.entry]

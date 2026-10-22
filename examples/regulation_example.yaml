@@ -1,0 +1,257 @@
+# yaml-language-server: $schema=../submodules/track-description/caudri-track.schema.yaml
+# Inspired by CAuDri-Challenge Regulations 2026, appendix A.12, page 52.
+# https://caudri-challenge.de/documents/CAuDri-Challenge_Regulations_2026.pdf
+
+id: regulations_example_circuit
+$schema: ../submodules/track-description/caudri-track.schema.yaml
+discipline: freedrive_course
+
+root:
+  section: start_curve
+  port: exit
+  map_orientation: 90
+road:
+  lane_width: 0.40
+  marking_width: 0.020
+  rendering:
+    surface_color: "#1A1A1A"
+  centerline: dashed
+  left_boundary: solid
+  right_boundary: solid
+
+sections:
+  # Lower right: the left-turning Root ends at the foot of the parking straight.
+  start_curve:
+    type: arc
+    parameters: {radius: 1.5, angle: 225, direction: left}
+    elements:
+      start_box:
+        type: start_box
+        parameters: {length: 2.0}
+      starting_line:
+        type: starting_line
+        parameters: {pattern: checkered}
+    zones:
+      missing_right_loop:
+        type: missing_marking
+        parameters:
+          range: {start: 0.4, end: 1.7}
+          markings: [centerline, left_boundary]
+
+  # Exact closure: length = sqrt(2) * (2.2 + 1.5 + 0.8).
+  parking_straight:
+    type: straight
+    parameters: {length: 6.363961030678928}
+    elements:
+      parking:
+        type: parking_area
+        parameters:
+          range: {start: 1.0, end: 4.8}
+          direction: forward
+          parallel_parking:
+            distance: 0.0
+            extent_along_road: 3.1
+            spots:
+              parallel_1:
+                distance: 0.25
+                state: free
+                extent_along_road: 0.7
+                extent_lateral: 0.3
+              parallel_2:
+                distance: 0.95
+                state: free
+                extent_along_road: 0.8
+                extent_lateral: 0.3
+              parallel_3:
+                distance: 1.75
+                state: free
+                extent_along_road: 1.0
+                extent_lateral: 0.3
+          perpendicular_parking:
+            distance: 0.7
+            extent_along_road: 3.1
+            spots:
+              perpendicular_1:
+                distance: 0.35
+                state: free
+                extent_along_road: 0.35
+                extent_lateral: 0.5
+              perpendicular_2:
+                distance: 0.7
+                state: free
+                extent_along_road: 0.35
+                extent_lateral: 0.5
+              perpendicular_3:
+                distance: 1.05
+                state: free
+                extent_along_road: 0.35
+                extent_lateral: 0.5
+              perpendicular_4:
+                distance: 1.4
+                state: free
+                extent_along_road: 0.35
+                extent_lateral: 0.5
+              perpendicular_5:
+                distance: 1.75
+                state: free
+                extent_along_road: 0.35
+                extent_lateral: 0.5
+              perpendicular_6:
+                distance: 2.1
+                state: free
+                extent_along_road: 0.35
+                extent_lateral: 0.5
+              perpendicular_7:
+                distance: 2.45
+                state: free
+                extent_along_road: 0.35
+                extent_lateral: 0.5
+    features:
+      guide_1:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 4.863961030678928, offset: -0.53}
+      guide_2:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 5.263961030678928, offset: -0.53}
+      guide_3:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 5.663961030678928, offset: -0.53}
+      guide_4:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 6.063961030678928, offset: -0.53}
+
+  upper_right_curve:
+    type: arc
+    parameters: {radius: 1.5, angle: 135, direction: left}
+    features:
+      guide_5:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 0.1, offset: -0.53}
+      guide_6:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 0.5, offset: -0.53}
+      guide_7:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 0.9, offset: -0.53}
+      guide_8:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 1.3, offset: -0.53}
+      guide_9:
+        type: traffic_sign
+        parameters: {sign: guide_left}
+        at: {distance: 1.7, offset: -0.53}
+
+  upper_right_approach:
+    type: straight
+    parameters: {length: 1.7}
+
+  # Both intersections share a NE/SW main axis. NW/SE approaches are controlled.
+  upper_crossing:
+    type: intersection
+    parameters:
+      layout: stop
+      controlled_ports: [left, right]
+      angle: 90
+      port_distance: 0.8
+      corner_radius: 0.1
+
+  # Intersection centers are 2 * 1.8 m apart, leaving a 2.0 m connecting road.
+  diagonal_link:
+    type: straight
+    parameters: {length: 2.0}
+
+  lower_crossing:
+    type: intersection
+    parameters:
+      layout: give_way
+      controlled_ports: [left, right]
+      angle: 90
+      port_distance: 0.8
+      corner_radius: 0.1
+
+  upper_left_outbound:
+    type: straight
+    parameters: {length: 1.6}
+  upper_left_curve:
+    type: arc
+    parameters: {radius: 1.8, angle: 180, direction: left}
+    zones:
+      missing_upper_left:
+        type: missing_marking
+        parameters:
+          range: {start: 1.35, end: 2.25}
+          markings: [centerline]
+  upper_left_return:
+    type: straight
+    parameters: {length: 1.6}
+
+  # A 270-degree loop between the SW and SE arms; approaches = radius - port distance.
+  lower_left_outbound:
+    type: straight
+    parameters: {length: 0.7}
+  lower_left_west_curve:
+    type: arc
+    parameters: {radius: 1.5, angle: 90, direction: left}
+  lower_left_bottom_curve:
+    type: arc
+    parameters: {radius: 1.5, angle: 90, direction: left}
+  lower_left_east_curve:
+    type: arc
+    parameters: {radius: 1.5, angle: 90, direction: left}
+  lower_left_return:
+    type: straight
+    parameters: {length: 0.7}
+
+  right_loop_outbound:
+    type: straight
+    parameters: {length: 2.2}
+  right_loop_reverse_curve:
+    type: arc
+    parameters: {radius: 1.5, angle: 90, direction: right}
+  right_loop_transition:
+    type: straight
+    parameters: {length: 0.5}
+
+zones:
+  lower_left_double_centerline:
+    type: centerline
+    parameters:
+      style: double_solid
+      span:
+        start: {section: lower_left_outbound, distance: 0.15}
+        end: {section: lower_left_return, distance: 0.55}
+        via: [lower_left_west_curve, lower_left_bottom_curve, lower_left_east_curve]
+
+connections:
+  # Start -> parking -> upper crossing -> lower crossing.
+  - [start_curve.exit, parking_straight.entry]
+  - [parking_straight.exit, upper_right_curve.entry]
+  - [upper_right_curve.exit, upper_right_approach.entry]
+  - [upper_right_approach.exit, upper_crossing.entry]
+  - [upper_crossing.straight, diagonal_link.entry]
+  - [diagonal_link.exit, lower_crossing.entry]
+  # Lower left loop, traversed counter-clockwise.
+  - [lower_crossing.straight, lower_left_outbound.entry]
+  - [lower_left_outbound.exit, lower_left_west_curve.entry]
+  - [lower_left_west_curve.exit, lower_left_bottom_curve.entry]
+  - [lower_left_bottom_curve.exit, lower_left_east_curve.entry]
+  - [lower_left_east_curve.exit, lower_left_return.entry]
+  - [lower_left_return.exit, lower_crossing.left]
+  # Upper left loop connects the two NW arms; driven backward in the default lap.
+  - [upper_crossing.right, upper_left_outbound.entry]
+  - [upper_left_outbound.exit, upper_left_curve.entry]
+  - [upper_left_curve.exit, upper_left_return.entry]
+  - [upper_left_return.exit, lower_crossing.right]
+  # Upper SE arm -> S bend -> starting curve closes the right loop.
+  - [upper_crossing.left, right_loop_outbound.entry]
+  - [right_loop_outbound.exit, right_loop_reverse_curve.entry]
+  - [right_loop_reverse_curve.exit, right_loop_transition.entry]
+  - [right_loop_transition.exit, start_curve.entry]
