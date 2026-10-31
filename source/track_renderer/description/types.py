@@ -216,6 +216,9 @@ class GeometryModel(Protocol):
     def locate(
         self, section: Section, station: float
     ) -> tuple[Section, float | None, Point, float]: ...
+    def locate_local(
+        self, section: Section, station: float
+    ) -> tuple[Section, float, Point, float]: ...
     def sign_panel_size(self, value: Data) -> tuple[float, float]: ...
 
 

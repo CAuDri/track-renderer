@@ -1,7 +1,8 @@
 """Resolve placements used by more than one kind of track object.
 
 These helpers turn authored poses, route endpoints and implicit starting lines
-into Map positions. They also handle placements that continue onto another road.
+into Map positions. Explicit distances stay section-local; generated offsets
+and implicit starting lines can continue onto another road.
 """
 
 from __future__ import annotations
@@ -56,12 +57,11 @@ def explicit_pose(ctx: Context, path: str, source: Data, *, height: float = 0) -
 def explicit_placement(
     ctx: Context, path: str, source: Data, *, height: float = 0
 ) -> tuple[Pose, Section | None]:
-    """Resolve a pose and the section reached by a relative placement.
+    """Resolve an authored pose and its explicitly selected or owning section.
 
-    Carrying a distance through connected roads can change the supporting road
-    and its cross-section without changing the object's semantic owner. Absolute
-    Map poses have no resolved section; callers can retain their own binding or
-    infer one from the position when their geometry requires it.
+    Distances include both section endpoints but never continue onto another
+    road. Absolute Map poses have no resolved section; callers can retain their
+    own binding or infer one when their geometry requires it.
     """
     if "pose" in source:
         return Pose(**source["pose"]), None
@@ -77,7 +77,7 @@ def explicit_placement(
         yaw = section.pose[2]
     else:
         try:
-            section, _, point, yaw = ctx.model.locate(section, at["distance"])
+            section, _, point, yaw = ctx.model.locate_local(section, at["distance"])
         except ValueError as exc:
             raise RenderFailure(str(exc)) from exc
         point = add(point, scale(unit(yaw + math.pi / 2), at.get("offset", 0)))
