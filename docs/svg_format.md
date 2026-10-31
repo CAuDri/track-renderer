@@ -30,7 +30,9 @@ below markings and object depictions. A section spans several layers so that
 overlapping sections remain correctly ordered. Source ownership is therefore
 recorded through IDs rather than a nested group for each section.
 
-![Surface, road markings, waiting-area outlines and artwork labeled with their paint layers.](img/svg_layers.svg)
+<p align="center">
+  <img src="img/svg_layers.svg" alt="Surface, road markings, waiting-area outlines and artwork labeled with their paint layers." style="width: 80%;" />
+</p>
 
 Each layer contains **geometry groups**, each with one `path`, `polyline` or
 `use`. Semantic attributes belong to the group, not the child shape.
@@ -49,7 +51,9 @@ In the reference track, all crosswalk stripes share a crosswalk owner.
 The generated signs have their own object IDs and refer to the crosswalk as their parent.
 Both belong to the `west_approach` section.
 
-![Crosswalk stripes and a generated sign marked within their owning road section.](img/svg_object_links.svg)
+<p align="center">
+  <img src="img/svg_object_links.svg" alt="Crosswalk stripes and a generated sign marked within their owning road section." style="width: 80%;" />
+</p>
 
 | Geometry-group attribute | Meaning |
 | --- | --- |
@@ -68,7 +72,9 @@ centerline belongs to the road section, while `data-source-ids` identifies the
 zone that changed its appearance. Selection regions represent interaction areas,
 not physical surfaces; they have zero opacity and enabled pointer events.
 
-![Section-owned centerlines affected by a zone, with its normally invisible selection area outlined.](img/svg_zone_contributors.svg)
+<p align="center">
+  <img src="img/svg_object_contributors.svg" alt="A road section's double centerline is affected by a zone; the zone's selection region is also shown." style="width: 80%;" />
+</p>
 
 Object IDs are JSON pointers into the **expanded description**, including generated objects.
 An object's ID stays stable while its source path stays the same.
@@ -82,7 +88,9 @@ On a [curved section](../examples/curved_track.yaml), the zone's selection regio
 > [example SVG](img/curved_track.svg). They are not exposed as additional metadata fields.  
 > If you require the bounding boxes for your own use, let us know and we can export them in the metadata. (or just open a PR)
 
-![A curved section and zone with their geometry and axis-aligned bounding boxes marked.](img/svg_curved_bounds.svg)
+<p align="center">
+  <img src="img/svg_curved_bounds.svg" alt="A curved section and zone with their geometry and axis-aligned bounding boxes marked." style="width: 80%;" />
+</p>
 
 ## Metadata
 
@@ -167,7 +175,9 @@ The illustration marks a
 sign-panel pose still present in the
 [SVG without projections](img/track_no_projections.svg).
 
-![A crosswalk without optional projections; a marker shows the retained sign-panel pose.](img/svg_projection_poses.svg)
+<p align="center">
+  <img src="img/svg_projection_poses.svg" alt="A crosswalk without optional projections; a marker shows the retained sign-panel pose." style="width: 80%;" />
+</p>
 
 `data-purpose="physical"` classifies road paint and surfaces, while a real sign's optional symbol is still a `projection`.
 Physical placement comes from its part record rather than its illustration bounds.
@@ -223,7 +233,9 @@ the same position, an optional `z` coordinate denotes it's hight when placed in 
 Rotation is applied around the Map origin by the SVG group, leaving geometry coordinates and metadata poses in the unrotated Map frame.
 The viewport fits the rotated drawing.
 
-![A rotated road excerpt with its red Map x-axis, green Map y-axis and 35-degree angle.](img/svg_map_orientation.svg)
+<p align="center">
+  <img src="img/svg_map_orientation.svg" alt="A rotated road excerpt with its red Map x-axis, green Map y-axis and 35-degree angle." style="width: 80%;" />
+</p>
 
 SVG width and height default to millimeters at 1:1 scale. `--scale` changes the physical display dimensions; `--svg-responsive` omits them. Neither changes geometry coordinates or poses.
 
@@ -235,7 +247,9 @@ The [west-approach SVG](img/track_west_approach.svg) contains the selected secti
 The global vehicle is excluded because selection follows ownership, not proximity or a rectangular crop.
 Retained geometry keeps its original map coordinates and layer order.
 
-![The selected west approach and owned sign remain bright; the global actor and neighboring sections appear as faded context.](img/svg_section_selection.svg)
+<p align="center">
+  <img src="img/svg_section_selection.svg" alt="The selected west approach and owned sign remain bright; the global actor and neighboring sections appear as faded context." style="width: 100%;" />
+</p>
 
 [`select_sections()`](python_api.md#selecting-sections) and `--section` also retain the owned parts and required artwork.
 Context objects may remain with `reference_only: true`, without their own drawings or parts.
