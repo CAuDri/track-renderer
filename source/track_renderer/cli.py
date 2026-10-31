@@ -20,6 +20,7 @@ from .diagnostics import Diagnostic, RenderError
 from .exporters import export_jpg, export_svg
 from .io import write_file
 from .options import PROJECTION_TYPES, RenderOptions
+from .reporting import build_report
 from .svg import SvgDocument
 
 
@@ -163,17 +164,11 @@ def main(argv: list[str] | None = None) -> int:
         output = _export_drawing(drawing, args, format_name)
         _write_output(output, args.output)
 
+        report = build_report(drawing)
         if args.report:
-            _write_report(
-                args.report,
-                {
-                    "complete": drawing.complete,
-                    "validation": drawing.validation,
-                    "diagnostics": [d.to_dict() for d in drawing.diagnostics],
-                },
-            )
-        _print_findings(drawing.diagnostics)
-        return 0 if drawing.complete and drawing.validation.get("valid") is True else 1
+            _write_report(args.report, report)
+        _print_findings(Diagnostic(**finding) for finding in report["diagnostics"])
+        return 0 if report["complete"] and report["validation"].get("valid") is True else 1
 
     except RenderError as exc:
         _print_message("error", str(exc))
@@ -181,10 +176,7 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.report:
             try:
-                _write_report(
-                    args.report,
-                    {"complete": False, "diagnostics": [d.to_dict() for d in exc.diagnostics]},
-                )
+                _write_report(args.report, build_report(exc))
             except OSError as report_error:
                 _print_message("error", f"Cannot write report: {report_error}")
                 return 2
