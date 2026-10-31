@@ -224,6 +224,8 @@ def validate_document(root: ET.Element) -> dict[str, Any]:
     """@return Validated metadata after checking native drawing and cross-links."""
     if root.tag != f"{{{SVG}}}svg":
         raise SvgError("Expected an SVG document root")
+    if "transform" in root.attrib:
+        raise SvgError("Root transforms are unsupported; transform drawing groups below map")
     _structure(root)
     data = read_metadata(root)
     validate_annotations(data)
