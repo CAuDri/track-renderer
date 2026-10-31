@@ -17,6 +17,8 @@ from pathlib import Path
 from types import ModuleType
 from typing import TYPE_CHECKING, Any
 
+from yaml import YAMLError
+
 from ..diagnostics import Diagnostic, RenderError
 from .bundle_cache import bundle_for_track
 
@@ -117,7 +119,7 @@ def prepare_track(
         document = _load_document(track, source_uri, expansion_module)
         bundle = bundle_for_track(document, expansion_module)
         expanded = expansion_module.expand_track(document, bundle=bundle)
-    except (ValueError, OSError, KeyError, TypeError) as exc:
+    except (ValueError, OSError, KeyError, TypeError, YAMLError) as exc:
         diagnostic = Diagnostic("input.unavailable", str(exc))
         raise RenderError(str(exc), (diagnostic,)) from exc
 
