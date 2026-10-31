@@ -1,0 +1,53 @@
+# A small closed circuit used in the README's description-to-rendering illustration.
+# yaml-language-server: $schema=../submodules/track-description/caudri-track.schema.yaml
+$schema: ../submodules/track-description/caudri-track.schema.yaml
+id: example_track
+
+root:
+  section: approach
+  port: exit
+  map_orientation: 0
+
+road:
+  lane_width: 0.40
+  marking_width: 0.020
+  rendering: {surface_color: "#1A1A1A"}
+  centerline: dashed
+  left_boundary: solid
+  right_boundary: solid
+
+sections:
+  approach:
+    type: straight
+    parameters: {length: 2.8}
+    elements:
+      start_box: false
+      starting_line: false
+      crossing:
+        type: crosswalk
+        parameters: {distance: 1.4}
+
+  right_curve:
+    type: arc
+    parameters:
+      radius: 1.4
+      angle: 180
+      direction: left
+
+  return:
+    type: straight
+    parameters: {length: 2.8}
+    elements:
+      starting_line:
+        type: starting_line
+        parameters: {pattern: checkered, distance: 1.4}
+
+  closing_bend:
+    type: arc
+    parameters: {radius: 1.4, angle: 180, direction: left}
+
+connections:
+  - [approach.exit, right_curve.entry]
+  - [right_curve.exit, return.entry]
+  - [return.exit, closing_bend.entry]
+  - [closing_bend.exit, approach.entry]

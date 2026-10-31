@@ -1,0 +1,65 @@
+# A compact reference drawing with ownership, physical parts and generated artwork.
+# yaml-language-server: $schema=../submodules/track-description/caudri-track.schema.yaml
+$schema: ../submodules/track-description/caudri-track.schema.yaml
+id: svg_reference
+root:
+  section: west_approach
+  port: entry
+  map_orientation: 0
+metadata:
+  name: SVG reference track
+road:
+  lane_width: 0.40
+  marking_width: 0.020
+  rendering: {surface_color: "#1A1A1A"}
+  centerline: dashed
+  left_boundary: solid
+  right_boundary: solid
+sections:
+  west_approach:
+    type: straight
+    parameters: {length: 3}
+    road: {lane_width: 0.45}
+    elements:
+      start_box: false
+      starting_line: false
+      crosswalk:
+        type: crosswalk
+        parameters: {distance: 1}
+    zones:
+      no_overtaking:
+        type: centerline
+        parameters:
+          range: {start: 0.2, end: 2.8}
+          style: double_solid
+  crossing:
+    type: intersection
+    parameters:
+      layout: stop
+      angle: 100
+      port_distance: 1.0
+      corner_radius: 0.10
+      controlled_ports: [straight, right]
+      mandatory_turn: [entry, left]
+  north_exit:
+    type: straight
+    parameters: {length: 1.2}
+    road: {lane_width: 0.4}
+  east_exit:
+    type: straight
+    parameters: {length: 1.2}
+    road: {lane_width: 0.40}
+  south_exit:
+    type: straight
+    parameters: {length: 1.2}
+    road: {lane_width: 0.42}
+actors:
+  car:
+    type: dynamic_obstacle
+    spawn:
+      pose: {x: 0.3, y: -1.2, z: 0.1, yaw: 30}
+connections:
+  - [west_approach.exit, crossing.entry]
+  - [crossing.left, north_exit.entry]
+  - [crossing.straight, east_exit.entry]
+  - [crossing.right, south_exit.entry]

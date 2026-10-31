@@ -314,16 +314,16 @@
       </g>
     </g>
     <g transform="scale(1,-1) translate(2.5 0)">
-      <path d="M0.22009618943233417 -1.3616025403784437 L0.4799038105676658 -1.2116025403784438 L0.3799038105676658 -1.0383974596215562 L0.12009618943233419 -1.188397459621556 Z" fill="none" fill-rule="evenodd" stroke="#6B7D8E" stroke-width="0.008" />
+      <path d="M0.22009618943233417 -1.3616025403784437 L0.4799038105676658 -1.2116025403784438 L0.3799038105676658 -1.0383974596215562 L0.12009618943233419 -1.188397459621556 Z" fill="none" fill-rule="evenodd" stroke="#BC3D7B" stroke-width="0.008" />
     </g>
   </g>
-  <rect x="45" y="194" width="685" height="212" rx="5" fill="none" stroke="#C38618" stroke-width="3" />
-  <text x="440" y="100" fill="#C38618" font-size="27" font-weight="600">west_approach</text>
-  <path d="M 548 113 V 194" fill="none" stroke="#C38618" stroke-width="2" />
+  <rect x="45" y="194" width="685" height="212" rx="5" fill="none" stroke="#3478C7" stroke-width="3" />
+  <text x="440" y="100" fill="#3478C7" font-size="27" font-weight="600">west_approach</text>
+  <path d="M 548 113 V 194" fill="none" stroke="#3478C7" stroke-width="2" />
   <circle cx="207.5" cy="447.375" r="26" fill="none" stroke="#BC3D7B" stroke-width="2.5" />
   <path d="M 229.5 462.375 L 269.5 488.375 H 294.5" fill="none" stroke="#BC3D7B" stroke-width="2" />
   <text x="306.5" y="498.375" fill="#BC3D7B" font-size="27" font-weight="600">Owned sign</text>
-  <circle cx="680.0" cy="570.0" r="44" fill="none" stroke="#6B7D8E" stroke-width="2" />
-  <path d="M 636.0 570.0 H 593.0" fill="none" stroke="#6B7D8E" stroke-width="2" />
-  <text x="403.0" y="579.0" fill="#6B7D8E" font-size="27" font-weight="600">Global actor</text>
+  <circle cx="680.0" cy="570.0" r="44" fill="none" stroke="#BC3D7B" stroke-width="2" />
+  <path d="M 636.0 570.0 H 593.0" fill="none" stroke="#BC3D7B" stroke-width="2" />
+  <text x="403.0" y="579.0" fill="#BC3D7B" font-size="27" font-weight="600">Global actor</text>
 </svg>

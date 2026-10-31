@@ -163,14 +163,14 @@
       </g>
     </g>
   </g>
-  <path d="M 170 580 h 230" fill="none" stroke="#6B7D8E" stroke-width="2" stroke-dasharray="7 7" />
+  <path d="M 170 580 h 230" fill="none" stroke="#78828C" stroke-width="2" stroke-dasharray="7 7" />
   <path d="M 170 580 L 317.4473679720185 476.7562414568117" fill="none" stroke="#E45756" stroke-width="3" />
   <path d="M 317.4473679720185 476.7562414568117 L 309.4206979700789 489.7012238314603 L 302.5377807338664 479.8713992999924 Z" fill="#E45756" />
   <path d="M 170 580 L 75.35988800207738 444.8399126923164" fill="none" stroke="#16B970" stroke-width="3" />
   <path d="M 75.35988800207738 444.8399126923164 L 88.30487037672597 452.866582694256 L 78.47504584525808 459.7494999304685 Z" fill="#16B970" />
   <text x="203.44736797201853" y="454.7562414568117" fill="#E45756" font-size="27" font-weight="600">x_map</text>
   <text x="39.35988800207738" y="426.8399126923164" fill="#16B970" font-size="27" font-weight="600">y_map</text>
-  <circle cx="170" cy="580" r="5" fill="#6B7D8E" />
-  <path d="M 252 580 A 82 82 0 0 0 237.1704676316973 532.9667322192142" fill="none" stroke="#C38618" stroke-width="3" />
-  <text x="282" y="563" fill="#C38618" font-size="27" font-weight="600">35°</text>
+  <circle cx="170" cy="580" r="5" fill="#78828C" />
+  <path d="M 252 580 A 82 82 0 0 0 237.1704676316973 532.9667322192142" fill="none" stroke="#78828C" stroke-width="3" />
+  <text x="282" y="563" fill="#78828C" font-size="27" font-weight="600">35°</text>
 </svg>

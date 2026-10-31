@@ -108,8 +108,8 @@
   </g>
   <rect x="111.0" y="286.2" width="202.5" height="27.600000000000023" rx="4" fill="none" stroke="#C38618" stroke-width="2.5" />
   <rect x="502.49999999999994" y="286.2" width="376.50000000000006" height="27.600000000000023" rx="4" fill="none" stroke="#C38618" stroke-width="2.5" />
-  <text x="685" y="70" fill="#6B7D8E" font-size="27" font-weight="600">west_approach</text>
-  <path d="M 810 82 V 145" fill="none" stroke="#6B7D8E" stroke-width="2" />
+  <text x="685" y="70" fill="#3478C7" font-size="27" font-weight="600">west_approach</text>
+  <path d="M 810 82 V 145" fill="none" stroke="#3478C7" stroke-width="2" />
   <text x="524" y="522" fill="#C38618" font-size="27" font-weight="600">no_overtaking</text>
   <path d="M 690 492 V 325" fill="none" stroke="#C38618" stroke-width="2" />
 </svg>

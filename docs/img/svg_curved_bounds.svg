@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="920" height="600" viewBox="0 100 920 600" role="img" aria-labelledby="guide-title guide-description" font-family="DejaVu Sans, sans-serif">
   <title id="guide-title">Curved sections, zones and their bounds</title>
-  <desc id="guide-description">The bend section and its partial no_overtaking zone use actual renderer geometry from curved_track.yaml. The gold band reveals the native curved zone selection region, which is invisible in the ordinary export. The slate section box and teal zone box are axis-aligned bounds computed from the road surface and zone selection vertices. Boxes, colors and labels are guide annotations; they are not exported semantic bounding-box fields. The exterior canvas is transparent.</desc>
+  <desc id="guide-description">The bend section and its partial no_overtaking zone use actual renderer geometry from curved_track.yaml. The gold band reveals the native curved zone selection region, which is invisible in the ordinary export. The blue section box and gold zone box are axis-aligned bounds computed from the road surface and zone selection vertices. Boxes, colors and labels are guide annotations; they are not exported semantic bounding-box fields. The exterior canvas is transparent.</desc>
   <defs />
   <g transform="translate(170 555) scale(200)">
     <g id="map" transform="scale(1,-1)">
@@ -64,11 +64,11 @@
       </g>
     </g>
   </g>
-  <rect x="170.0" y="172.22578653471953" width="621.7271419071419" height="468.77421346528047" fill="none" stroke="#6B7D8E" stroke-width="2.5" stroke-dasharray="9 7" />
-  <rect x="321.8973862239285" y="369.31443242446176" width="254.10135857777607" height="241.04639911570393" fill="none" stroke="#388E91" stroke-width="2.5" stroke-dasharray="9 7" />
-  <text x="198.0" y="150.22578653471953" fill="#6B7D8E" font-size="27" font-weight="600">Section bounds</text>
-  <text x="647" y="477.31443242446176" fill="#388E91" font-size="27" font-weight="600">Zone bounds</text>
-  <path d="M 575.9987448017046 468.31443242446176 H 632" fill="none" stroke="#388E91" stroke-width="2" />
+  <rect x="170.0" y="172.22578653471953" width="621.7271419071419" height="468.77421346528047" fill="none" stroke="#3478C7" stroke-width="2.5" stroke-dasharray="9 7" />
+  <rect x="321.8973862239285" y="369.31443242446176" width="254.10135857777607" height="241.04639911570393" fill="none" stroke="#C38618" stroke-width="2.5" stroke-dasharray="9 7" />
+  <text x="198.0" y="150.22578653471953" fill="#3478C7" font-size="27" font-weight="600">Section bounds</text>
+  <text x="647" y="477.31443242446176" fill="#C38618" font-size="27" font-weight="600">Zone bounds</text>
+  <path d="M 575.9987448017046 468.31443242446176 H 632" fill="none" stroke="#C38618" stroke-width="2" />
   <text x="215" y="260" fill="#C38618" font-size="27" font-weight="600">Zone region</text>
   <path d="M 310 274 V 320 L 401.2547066057838 414.0394979439927" fill="none" stroke="#C38618" stroke-width="2" />
   <circle cx="401.2547066057838" cy="414.0394979439927" r="4" fill="#C38618" />

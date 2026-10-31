@@ -163,15 +163,15 @@
       </g>
     </g>
   </g>
-  <text x="70" y="70" fill="#D03030" font-size="27" font-weight="600">Waiting area · 30</text>
-  <path d="M 330 62 H 408.0 V 105.69999999999999" fill="none" stroke="#D03030" stroke-width="2" />
-  <circle cx="408.0" cy="105.69999999999999" r="5" fill="#D03030" />
-  <text x="725" y="70" fill="#6B7D8E" font-size="27" font-weight="600">Surface · 0</text>
-  <path d="M 805 82 V 220" fill="none" stroke="#6B7D8E" stroke-width="2" />
-  <circle cx="805" cy="220" r="5" fill="#6B7D8E" />
-  <circle cx="727.0" cy="300" r="18" fill="none" stroke="#388E91" stroke-width="2.5" />
-  <path d="M 727.0 318 V 342" fill="none" stroke="#388E91" stroke-width="2" />
-  <text x="637.0" y="375" fill="#388E91" font-size="27" font-weight="600">Markings · 20</text>
+  <text x="70" y="70" fill="#BC3D7B" font-size="27" font-weight="600">Waiting area · 30</text>
+  <path d="M 330 62 H 408.0 V 105.69999999999999" fill="none" stroke="#BC3D7B" stroke-width="2" />
+  <circle cx="408.0" cy="105.69999999999999" r="5" fill="#BC3D7B" />
+  <text x="725" y="70" fill="#78828C" font-size="27" font-weight="600">Surface · 0</text>
+  <path d="M 805 82 V 220" fill="none" stroke="#78828C" stroke-width="2" />
+  <circle cx="805" cy="220" r="5" fill="#78828C" />
+  <circle cx="727.0" cy="300" r="18" fill="none" stroke="#8B78B4" stroke-width="2.5" />
+  <path d="M 727.0 318 V 342" fill="none" stroke="#8B78B4" stroke-width="2" />
+  <text x="637.0" y="375" fill="#8B78B4" font-size="27" font-weight="600">Markings · 20</text>
   <circle cx="263.0" cy="489.95000000000005" r="28" fill="none" stroke="#BC3D7B" stroke-width="2.5" />
   <path d="M 228.0 489.95000000000005 H 298.0 M 263.0 454.95000000000005 V 524.95" fill="none" stroke="#BC3D7B" stroke-width="2" />
   <path d="M 283.0 509.95000000000005 L 307.0 533.95" fill="none" stroke="#BC3D7B" stroke-width="2" />

@@ -1,0 +1,33 @@
+# A curved section and a partial zone used to illustrate geometric bounds.
+# yaml-language-server: $schema=../submodules/track-description/caudri-track.schema.yaml
+$schema: ../submodules/track-description/caudri-track.schema.yaml
+id: curved_bounds
+
+root:
+  section: bend
+  port: entry
+  map_orientation: 0
+
+road:
+  lane_width: 0.40
+  marking_width: 0.020
+  rendering: {surface_color: "#1A1A1A"}
+  centerline: dashed
+  left_boundary: solid
+  right_boundary: solid
+
+sections:
+  bend:
+    type: arc
+    parameters: {radius: 3.0, angle: 65, direction: left}
+    elements:
+      start_box: false
+      starting_line: false
+    zones:
+      no_overtaking:
+        type: centerline
+        parameters:
+          range: {start: 0.9, end: 1.9}
+          style: double_solid
+
+connections: []

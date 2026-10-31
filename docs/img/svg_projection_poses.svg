@@ -100,7 +100,6 @@
       </g>
     </g>
   </g>
-  <text x="682" y="70" fill="#6B7D8E" font-size="27" font-weight="600">Projections off</text>
   <circle cx="263.0" cy="489.95000000000005" r="28" fill="none" stroke="#BC3D7B" stroke-width="2.5" />
   <path d="M 228.0 489.95000000000005 H 298.0 M 263.0 454.95000000000005 V 524.95" fill="none" stroke="#BC3D7B" stroke-width="2" />
   <path d="M 283.0 509.95000000000005 L 307.0 533.95" fill="none" stroke="#BC3D7B" stroke-width="2" />
