@@ -19,6 +19,7 @@ from .strokes import stroke_extrema
 Point = tuple[float, float]
 Bounds = tuple[float, float, float, float]
 Matrix = tuple[float, float, float, float, float, float]
+Subpaths = list[tuple[list[Point], bool]]
 IDENTITY: Matrix = (1, 0, 0, 1, 0, 0)
 _NUMBER = r"[-+]?(?:\d*\.\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?"
 _TOKEN = re.compile(_NUMBER)
@@ -167,6 +168,34 @@ def vertices(element: ET.Element) -> list[Point]:
     return [point for points, _ in _subpaths(element) for point in points]
 
 
+class GeometryReader:
+    """Reuse parsed values during one validation, bounds or export operation.
+
+    Discard the reader after that operation. XML remains directly editable, so
+    retaining parsed paths across calls would require tracking every tree edit.
+    """
+
+    def __init__(self) -> None:
+        self._paths: dict[ET.Element, Subpaths] = {}
+        self._numbers: dict[str, float] = {"0": 0.0, "1": 1.0}
+        self._transforms: dict[str, Matrix] = {"": IDENTITY}
+
+    def subpaths(self, element: ET.Element) -> Subpaths:
+        if element not in self._paths:
+            self._paths[element] = _subpaths(element)
+        return self._paths[element]
+
+    def number(self, value: str) -> float:
+        if value not in self._numbers:
+            self._numbers[value] = number(value)
+        return self._numbers[value]
+
+    def transform(self, value: str) -> Matrix:
+        if value not in self._transforms:
+            self._transforms[value] = transform(value)
+        return self._transforms[value]
+
+
 def href(element: ET.Element) -> str:
     return element.get("href", element.get(f"{{{XLINK}}}href", ""))
 
@@ -179,17 +208,22 @@ def _paint(element: ET.Element, inherited: dict[str, str]) -> dict[str, str]:
     }
 
 
-def _shape_points(element: ET.Element, paint: dict[str, str]) -> Iterator[Point]:
+def _shape_points(
+    element: ET.Element, paint: dict[str, str], reader: GeometryReader
+) -> Iterator[Point]:
     name = element.tag.rsplit("}", 1)[-1]
     if name in {"polyline", "path"}:
-        subpaths = _subpaths(element)
-        if paint["fill"] not in {"none", "transparent"} and number(paint["fill-opacity"]) > 0:
+        subpaths = reader.subpaths(element)
+        if (
+            paint["fill"] not in {"none", "transparent"}
+            and reader.number(paint["fill-opacity"]) > 0
+        ):
             for points, _ in subpaths:
                 yield from points
-        stroke_width = number(paint["stroke-width"])
+        stroke_width = reader.number(paint["stroke-width"])
         if (
             paint["stroke"] not in {"none", "transparent"}
-            and number(paint["stroke-opacity"]) > 0
+            and reader.number(paint["stroke-opacity"]) > 0
             and stroke_width > 0
         ):
             for points, closed in subpaths:
@@ -203,20 +237,24 @@ def _shape_points(element: ET.Element, paint: dict[str, str]) -> Iterator[Point]
                     }
                 )
     elif name in {"image", "rect"}:
-        x, y = number(element.get("x", "0")), number(element.get("y", "0"))
-        width, height = number(element.get("width", "0")), number(element.get("height", "0"))
+        x, y = reader.number(element.get("x", "0")), reader.number(element.get("y", "0"))
+        width = reader.number(element.get("width", "0"))
+        height = reader.number(element.get("height", "0"))
         for corner_x in (x, x + width):
             for corner_y in (y, y + height):
                 yield corner_x, corner_y
 
 
-def drawing_bounds(root: ET.Element, *, svg_coordinates: bool = False) -> Bounds | None:
+def drawing_bounds(
+    root: ET.Element, *, svg_coordinates: bool = False, reader: GeometryReader | None = None
+) -> Bounds | None:
     """Measure painted bounds in Map meters, excluding selection aids.
 
     @param svg_coordinates Include the outer Map transform for viewport fitting.
         These bounds use displayed SVG coordinates, with y pointing down.
         The default keeps bounds local to the Map for geometry consumers.
     """
+    reader = reader or GeometryReader()
     world = root.find(f"{{{SVG}}}g[@id='map']")
     if world is None:
         raise SvgError("SVG has no Map drawing group")
@@ -233,18 +271,26 @@ def drawing_bounds(root: ET.Element, *, svg_coordinates: bool = False) -> Bounds
         if (
             element.get("data-purpose") == "selection"
             or element.get("display") == "none"
-            or number(element.get("opacity", "1")) == 0
+            or reader.number(element.get("opacity", "1")) == 0
         ):
             return
 
-        local = multiply(matrix, transform(element.get("transform", "")))
+        local = multiply(matrix, reader.transform(element.get("transform", "")))
         paint = _paint(element, inherited)
         if element.tag == f"{{{SVG}}}use":
             identifier = href(element).removeprefix("#")
             if identifier in active or identifier not in references:
                 raise SvgError("Cyclic or missing SVG use reference")
             local = multiply(
-                local, (1, 0, 0, 1, number(element.get("x", "0")), number(element.get("y", "0")))
+                local,
+                (
+                    1,
+                    0,
+                    0,
+                    1,
+                    reader.number(element.get("x", "0")),
+                    reader.number(element.get("y", "0")),
+                ),
             )
             visit(references[identifier], local, active | {identifier}, paint)
             return
@@ -252,7 +298,7 @@ def drawing_bounds(root: ET.Element, *, svg_coordinates: bool = False) -> Bounds
         # Unlike display:none and group opacity, visibility can be restored by
         # a child. Skip hidden paint here, but still visit its descendants.
         if paint["visibility"] not in {"hidden", "collapse"}:
-            for point in _shape_points(element, paint):
+            for point in _shape_points(element, paint, reader):
                 x, y = apply(local, point)
                 if bounds is None:
                     bounds = x, y, x, y
@@ -270,12 +316,12 @@ def drawing_bounds(root: ET.Element, *, svg_coordinates: bool = False) -> Bounds
     # Public Map bounds omit the display rotation and SVG's y-axis flip.
     if (
         root.get("display") != "none"
-        and number(root.get("opacity", "1")) != 0
+        and reader.number(root.get("opacity", "1")) != 0
         and world.get("display") != "none"
-        and number(world.get("opacity", "1")) != 0
+        and reader.number(world.get("opacity", "1")) != 0
     ):
         paint = _paint(world, _paint(root, _PAINT_DEFAULTS))
-        matrix = transform(world.get("transform", "")) if svg_coordinates else IDENTITY
+        matrix = reader.transform(world.get("transform", "")) if svg_coordinates else IDENTITY
         for child in world:
             visit(child, matrix, frozenset(), paint)
     return bounds

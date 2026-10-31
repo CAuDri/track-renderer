@@ -8,11 +8,9 @@ metadata stores the nearest whole-number print density supported by JFIF.
 
 import math
 from io import BytesIO
-from xml.etree import ElementTree as ET
 
 from ..geometry.primitives import positive
 from ..svg import SvgDocument
-from .svg import export_svg
 
 _METERS_PER_INCH = 0.0254
 _MAX_PIXELS = 100_000_000
@@ -84,23 +82,23 @@ def export_jpg(
     if not isinstance(quality, int) or not 1 <= quality <= 100:
         raise ValueError("JPEG quality must be an integer between 1 and 100")
 
-    svg = export_svg(drawing, margin=margin)
-    if drawing.bounds() is None:
+    exported = drawing._export(margin=margin)
+    if not exported.has_geometry:
         raise ValueError("SVG has no drawable geometry")
     # A selected document may deliberately retain its original viewport. Size
     # the raster from that viewport, rather than the smaller visible bounds.
-    viewbox = [float(value) for value in ET.fromstring(svg).get("viewBox").split()]
+    viewbox = exported.viewbox
     pixel_width, height = _pixel_dimensions(viewbox[2], viewbox[3], dpi, width)
 
     try:
         raster = cairosvg.svg2png(
-            bytestring=svg.encode(), output_width=pixel_width, output_height=height
+            bytestring=exported.content.encode(), output_width=pixel_width, output_height=height
         )
     except CairoError as exc:
         raise ValueError(f"JPEG rasterization failed: {exc}. {_SIZE_HINT}") from exc
     output = BytesIO()
     with Image.open(BytesIO(raster)) as image:
-        background = Image.new("RGB", image.size, drawing.metadata["background"])
+        background = Image.new("RGB", image.size, exported.background)
         if image.mode == "RGBA":
             background.paste(image, mask=image.getchannel("A"))
         else:

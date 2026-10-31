@@ -10,26 +10,28 @@ from __future__ import annotations
 import math
 from collections.abc import Iterable
 from copy import deepcopy
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
 
 from ..diagnostics import Diagnostic, SvgError
 from ..io import write_file
-from .geometry import Bounds, drawing_bounds, numbers
+from .geometry import Bounds, GeometryReader, drawing_bounds, numbers
 from .metadata import SVG, read_metadata
 from .selection import select_sections
 from .validation import DOCUMENT_LIMIT, parse_document, validate_document
 
 
-def _viewport(root: ET.Element, *, margin: float, scale: float, responsive: bool) -> None:
+def _viewport(
+    root: ET.Element, *, bounds: Bounds | None, margin: float, scale: float, responsive: bool
+) -> None:
     if not math.isfinite(margin) or margin < 0 or not math.isfinite(scale) or scale <= 0:
         raise ValueError("Margin must be nonnegative and scale must be positive and finite")
 
     if root.get("data-fixed-viewbox") == "true" and "viewBox" in root.attrib:
         left, top, width, height = numbers(root.attrib["viewBox"])
     else:
-        bounds = drawing_bounds(root, svg_coordinates=True)
         if bounds is None:
             left, top, width, height = -0.5, -0.5, 1.0, 1.0
         else:
@@ -57,6 +59,16 @@ def _viewport(root: ET.Element, *, margin: float, scale: float, responsive: bool
         background.attrib.update(x=str(left), y=str(top), width=str(width), height=str(height))
 
 
+@dataclass(frozen=True)
+class _SvgExport:
+    """One validated export, with the framing information rasterizers also need."""
+
+    content: str
+    viewbox: tuple[float, ...]
+    background: str
+    has_geometry: bool
+
+
 class SvgDocument:
     """@brief A native SVG drawing and its CAuDri semantic annotations.
 
@@ -71,9 +83,11 @@ class SvgDocument:
         if background is not None and "viewBox" not in root.attrib:
             background.attrib.setdefault("width", "1")
             background.attrib.setdefault("height", "1")
-        validate_document(root)
+        reader = GeometryReader()
+        validate_document(root, reader=reader)
         if "viewBox" not in root.attrib:
-            _viewport(root, margin=0.5, scale=1, responsive=False)
+            bounds = drawing_bounds(root, svg_coordinates=True, reader=reader)
+            _viewport(root, bounds=bounds, margin=0.5, scale=1, responsive=False)
 
     @property
     def metadata(self) -> dict[str, Any]:
@@ -135,9 +149,20 @@ class SvgDocument:
         @param scale Physical scale denominator, such as 10 for a 1:10 drawing.
         @param responsive Omit physical dimensions so a viewer can fit the viewBox.
         """
-        self.validate()
+        return self._export(margin=margin, scale=scale, responsive=responsive).content
+
+    def _export(self, *, margin: float, scale: float = 1, responsive: bool = False) -> _SvgExport:
+        """Share one parsing pass between validation, viewport fitting and JPEG.
+
+        Nothing is cached on the document: every call observes current XML edits.
+        The returned snapshot lets raster export avoid another bounds walk and
+        another XML/metadata parse just to recover dimensions and background.
+        """
+        reader = GeometryReader()
+        metadata = validate_document(self.root, reader=reader)
+        bounds = drawing_bounds(self.root, svg_coordinates=True, reader=reader)
         root = deepcopy(self.root)
-        _viewport(root, margin=margin, scale=scale, responsive=responsive)
+        _viewport(root, bounds=bounds, margin=margin, scale=scale, responsive=responsive)
         content = (
             '<?xml version="1.0" encoding="UTF-8"?>\n'
             + ET.tostring(root, encoding="unicode")
@@ -145,7 +170,12 @@ class SvgDocument:
         )
         if len(content.encode("utf-8")) > DOCUMENT_LIMIT:
             raise SvgError("SVG document exceeds 64 MiB")
-        return content
+        return _SvgExport(
+            content,
+            tuple(numbers(root.attrib["viewBox"])),
+            metadata["background"],
+            bounds is not None,
+        )
 
     def write(
         self, path: str | Path, *, margin: float = 0.5, scale: float = 1, responsive: bool = False

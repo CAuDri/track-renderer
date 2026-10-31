@@ -19,7 +19,7 @@ from xml.etree import ElementTree as ET
 from ..assets.validation import SVG_LIMIT, validate_svg
 from ..diagnostics import SvgError
 from .annotations import validate_annotations
-from .geometry import href, map_transform, number, numbers, transform, vertices
+from .geometry import GeometryReader, href, map_transform, numbers
 from .metadata import METADATA, SVG, XLINK, read_metadata
 
 DOCUMENT_LIMIT = 64 * 1024 * 1024
@@ -158,7 +158,7 @@ def _artwork(element: ET.Element, checked: set[str]) -> str:
     return identifier
 
 
-def _attributes(element: ET.Element) -> None:
+def _attributes(element: ET.Element, reader: GeometryReader) -> None:
     # SVG2 and older consumers can disagree about which spelling wins. Never
     # allow the second attribute to hide a different resource from the checks.
     if "href" in element.attrib and f"{{{XLINK}}}href" in element.attrib:
@@ -173,11 +173,14 @@ def _attributes(element: ET.Element) -> None:
             and not re.fullmatch(r"#[0-9a-fA-F]{6}", value)
         ):
             raise SvgError("Drawing colors must be RGB hex colors, transparent or none")
-        if key in {"opacity", "fill-opacity", "stroke-opacity"} and not 0 <= number(value) <= 1:
+        if (
+            key in {"opacity", "fill-opacity", "stroke-opacity"}
+            and not 0 <= reader.number(value) <= 1
+        ):
             raise SvgError("SVG opacity must be between zero and one")
     if "transform" in element.attrib:
-        transform(element.attrib["transform"])
-    if "stroke-width" in element.attrib and number(element.attrib["stroke-width"]) < 0:
+        reader.transform(element.attrib["transform"])
+    if "stroke-width" in element.attrib and reader.number(element.attrib["stroke-width"]) < 0:
         raise SvgError("Stroke width must be nonnegative")
     if element.get("stroke-linecap", "butt") not in {"butt", "square", "round"}:
         raise SvgError("Unsupported SVG line cap")
@@ -220,8 +223,9 @@ def _geometry_links(element: ET.Element, data: dict[str, Any], seen: set[str]) -
         raise SvgError("Geometry source IDs contain unknown objects")
 
 
-def validate_document(root: ET.Element) -> dict[str, Any]:
+def validate_document(root: ET.Element, *, reader: GeometryReader | None = None) -> dict[str, Any]:
     """@return Validated metadata after checking native drawing and cross-links."""
+    reader = reader or GeometryReader()
     if root.tag != f"{{{SVG}}}svg":
         raise SvgError("Expected an SVG document root")
     if "transform" in root.attrib:
@@ -248,7 +252,7 @@ def validate_document(root: ET.Element) -> dict[str, Any]:
             continue
         if element.tag not in {f"{{{SVG}}}{name}" for name in _ELEMENTS}:
             raise SvgError(f"Unsupported SVG element: {element.tag}")
-        _attributes(element)
+        _attributes(element, reader)
         identifier = element.get("id")
         if identifier:
             if identifier in identifiers or re.search(r"\s", identifier):
@@ -256,14 +260,14 @@ def validate_document(root: ET.Element) -> dict[str, Any]:
             identifiers[identifier] = element
         _geometry_links(element, data, logical_ids)
         if element.tag in {f"{{{SVG}}}polyline", f"{{{SVG}}}path"}:
-            vertices(element)
+            reader.subpaths(element)
         if element.tag in {f"{{{SVG}}}image", f"{{{SVG}}}rect"}:
             for field in ("width", "height"):
-                if number(element.get(field, "0")) <= 0:
+                if reader.number(element.get(field, "0")) <= 0:
                     raise SvgError("SVG images and rectangles need positive dimensions")
         if element.tag in {f"{{{SVG}}}image", f"{{{SVG}}}rect", f"{{{SVG}}}use"}:
             for field in ("x", "y"):
-                number(element.get(field, "0"))
+                reader.number(element.get(field, "0"))
         if element.tag == f"{{{SVG}}}image":
             asset = _artwork(element, artwork)
             if element.get("id") != "asset-" + asset or asset not in data["assets"]:
@@ -283,10 +287,12 @@ def validate_document(root: ET.Element) -> dict[str, Any]:
             raise SvgError("Resource references are supported only on use and image")
 
     worlds = root.findall(f"{{{SVG}}}g[@id='map']")
-    expected = transform(map_transform(data["map_orientation"]))
+    expected = reader.transform(map_transform(data["map_orientation"]))
     if len(worlds) != 1 or not all(
         math.isclose(actual, target, rel_tol=1e-9, abs_tol=1e-12)
-        for actual, target in zip(transform(worlds[0].get("transform", "")), expected, strict=True)
+        for actual, target in zip(
+            reader.transform(worlds[0].get("transform", "")), expected, strict=True
+        )
     ):
         raise SvgError("Expected one Map group matching map_orientation and the SVG y-axis flip")
     if "viewBox" in root.attrib:
