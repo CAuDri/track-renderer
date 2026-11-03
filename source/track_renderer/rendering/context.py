@@ -49,11 +49,7 @@ class Context:
             # sections and validated placements remain shared, read-only input.
             self.model.approximation = self.tolerance
 
-        self.drawing = DrawingBuilder(
-            self.track["id"],
-            self.track["$schema"],
-            self.track.get("root", {}).get("map_orientation", 0),
-        )
+        self.drawing = DrawingBuilder(self.track)
         self.drawing.diagnostics = deepcopy(list(prepared.diagnostics))
         self.drawing.validation = deepcopy(prepared.validation)
         self.drawing._asset_dependencies.update(

@@ -20,6 +20,7 @@ from ..io import write_file
 from .geometry import Bounds, GeometryReader, drawing_bounds, numbers
 from .metadata import SVG, read_metadata
 from .selection import select_sections
+from .track import to_track
 from .validation import DOCUMENT_LIMIT, parse_document, validate_document
 
 
@@ -96,15 +97,15 @@ class SvgDocument:
 
     @property
     def track_id(self) -> str:
-        return self.metadata["track_id"]
+        return self.metadata["track"]["id"]
 
     @property
     def schema_uri(self) -> str:
-        return self.metadata["schema_uri"]
+        return self.metadata["track"]["$schema"]
 
     @property
     def map_orientation(self) -> float:
-        return self.metadata["map_orientation"]
+        return self.metadata["track"]["root"].get("map_orientation", 0)
 
     @property
     def complete(self) -> bool:
@@ -141,6 +142,15 @@ class SvgDocument:
     def validate(self) -> None:
         """@brief Check the SVG profile, embedded artwork and semantic cross-links."""
         validate_document(self.root)
+
+    def to_track(self) -> dict[str, Any]:
+        """@return An independent expanded Track Description from a full drawing.
+
+        Uses source metadata, including disabled slots, without opening resources.
+        SVG geometry edits do not affect the result. Section selections are not
+        reconstructable. Rendering the result again needs its schema and assets.
+        """
+        return to_track(self.metadata)
 
     def to_svg(self, *, margin: float = 0.5, scale: float = 1, responsive: bool = False) -> str:
         """@return A standalone SVG, leaving this document's XML tree unchanged.

@@ -19,7 +19,7 @@ The root `svg` defines the viewport and carries `data-track-id` and
 
 | Element | Contents |
 | --- | --- |
-| `metadata` | Object identities, physical parts, artwork information and render status |
+| `metadata` | Track topology and settings, source objects, physical parts, artwork information and render status |
 | `title` | Track identifier |
 | `defs` | Shared, embedded artwork (i.e. traffic sign icons) |
 | `rect#background` | Viewport background (track surface) |
@@ -73,7 +73,7 @@ zone that changed its appearance. Selection regions represent interaction areas,
 not physical surfaces; they have zero opacity and enabled pointer events.
 
 <p align="center">
-  <img src="img/svg_object_contributors.svg" alt="A road section's double centerline is affected by a zone; the zone's selection region is also shown." style="width: 80%;" />
+  <img src="img/svg_zone_contributors.svg" alt="A road section's double centerline is affected by a zone; the zone's selection region is also shown." style="width: 80%;" />
 </p>
 
 Object IDs are JSON pointers into the **expanded description**, including generated objects.
@@ -84,8 +84,8 @@ Individual drawing elements can change when geometry is recomputed, so geometry 
 
 On a [curved section](../examples/curved_track.yaml), the zone's selection region follows the road. Rectangular bounds also enclose empty space.
 
-> **Hint:** The boxes below are computed from the road surface and zone-selection geometry in the
-> [example SVG](img/curved_track.svg). They are not exposed as additional metadata fields.  
+> [!NOTE]
+> The boxes below are computed from the [example SVG](img/curved_track.svg). They are not exposed as additional metadata fields.  
 > If you require the bounding boxes for your own use, let us know and we can export them in the metadata. (or just open a PR)
 
 <p align="center">
@@ -100,6 +100,30 @@ Inside the `metadata` element, one `track` element in **`urn:caudri:track-render
 
 Namespace prefixes may vary; the namespace URI identifies the record.
 Its XML-decoded text is the JSON payload.
+
+### Track and topology
+
+The JSON's `track` block holds the expanded description's global values.
+Together with `objects`, it describes the track independently of the drawn shapes.
+
+| Field in `track` | Meaning |
+| --- | --- |
+| `id`, `$schema` | Track identifier and absolute description-schema URI |
+| `root` | Root section, port and `map_orientation`; establishes the Map frame and display rotation |
+| `connections` | Ordered pairs of port references, such as those in the [example SVG](img/track.svg); preserves the section graph |
+| `metadata`, `discipline` | Track name, author, tags and other supplied metadata; selected discipline, when present |
+| `road`, `rendering` | Expanded global road defaults and rendering settings |
+
+Collection fields such as `track.sections` retain empty mappings and disabled
+slots. Their actual objects live once in `objects`, at the paths given by
+`source_pointer`. Nested objects follow the same pattern in their parent's
+`properties`; a disabled entry remains `false` so expansion will not recreate it.
+
+For a full SVG, **`drawing.to_track()`** assembles these records into an equivalent
+expanded Track Description, including generated objects and parking lots/spots.
+It needs no original YAML or resource access. Rendering that dictionary again
+requires its referenced schema and artwork. Authored formatting and shorthand
+are not preserved; SVG geometry edits do not change the reconstructed description.
 
 ### Objects and provenance
 
@@ -135,11 +159,11 @@ values or generated features, using fields such as `source_path` and `schema_ref
 This distinguishes values explicitly supplied in the track description from values filled in by defaults, inheritance or generated objects during expansion.
 
 `schema_ref` identifies the schema definition behind a value or finding.
-Relative references resolve against the central `schema_uri`, **not the SVG file's location**.
+Relative references resolve against `track.$schema`, **not the SVG file's location**.
 The fragment identifies the definition within that schema document.
 References to other URI origins remain absolute.
 
-These are informational links: displaying or loading an SVG does not fetch schemas. A local `schema_uri` still requires access to those files if a tool wants to inspect the definitions.
+These are informational links: displaying or loading an SVG does not fetch schemas. A local `track.$schema` still requires access to those files if a tool wants to inspect the definitions.
 
 This explains why the SVG can contain signs absent from the authored YAML.
 `source_pointer` identifies the expanded object, while provenance describes where it came from.
@@ -197,9 +221,8 @@ The remaining top-level fields describe the document:
 
 | Fields | Meaning |
 | --- | --- |
-| `track_id`, `schema_uri` | Source track ID and description schema URI |
 | `background` | Background (track surface) color |
-| `coordinates`, `map_orientation` | Coordinate conventions and the Map's display orientation |
+| `coordinates` | Map coordinate conventions; display orientation is stored in `track.root.map_orientation` |
 | `complete`, `validation`, `diagnostics` | Render completion, input validation and source-linked findings |
 | `dependencies` | Input, schema and attempted artwork URIs, useful for cache invalidation |
 | `selection` | Selected section IDs and validation scope, when applicable |
@@ -256,6 +279,8 @@ Context objects may remain with `reference_only: true`, without their own drawin
 
 Validation and diagnostics still describe the full source render, recorded as `selection.validation_scope="source_track"`.
 `select_sections()` filters existing output; it does not partially rebuild or revalidate the track.
+The `track` block retains the full source root and connections as context, including
+references to excluded sections. `to_track()` therefore rejects selected SVGs.
 
 ## Interoperability
 

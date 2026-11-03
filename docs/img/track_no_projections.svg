@@ -51,12 +51,11 @@
             "severity": "warning",
             "source": {
               "column": 9,
-              "line": 7,
+              "line": 5,
               "uri": "file:///workspace/track-renderer/examples/track.yaml"
             }
           }
         ],
-        "map_orientation": 0,
         "objects": {
           "/actors/car": {
             "category": "actors",
@@ -198,6 +197,7 @@
             "id": "/sections/crossing",
             "parent_id": null,
             "properties": {
+              "features": {},
               "parameters": {
                 "angle": 100,
                 "controlled_ports": [
@@ -2287,6 +2287,10 @@
             "id": "/sections/west_approach",
             "parent_id": null,
             "properties": {
+              "elements": {
+                "start_box": false,
+                "starting_line": false
+              },
               "parameters": {
                 "length": 3
               },
@@ -2305,7 +2309,8 @@
                   "surface_color": "#1A1A1A"
                 },
                 "right_boundary": "solid"
-              }
+              },
+              "zones": {}
             },
             "provenance": {
               "/sections/west_approach/elements/crosswalk/features/sign_backward": {
@@ -2662,6 +2667,7 @@
             "id": "/sections/west_approach/elements/crosswalk",
             "parent_id": "/sections/west_approach",
             "properties": {
+              "features": {},
               "parameters": {
                 "direction": "forward",
                 "distance": 1,
@@ -3672,8 +3678,57 @@
             }
           }
         },
-        "schema_uri": "file:///workspace/track-renderer/submodules/track-description/caudri-track.schema.yaml",
-        "track_id": "svg_reference",
+        "track": {
+          "$schema": "file:///workspace/track-renderer/submodules/track-description/caudri-track.schema.yaml",
+          "actors": {},
+          "connections": [
+            [
+              "west_approach.exit",
+              "crossing.entry"
+            ],
+            [
+              "crossing.left",
+              "north_exit.entry"
+            ],
+            [
+              "crossing.straight",
+              "east_exit.entry"
+            ],
+            [
+              "crossing.right",
+              "south_exit.entry"
+            ]
+          ],
+          "id": "svg_reference",
+          "metadata": {
+            "name": "SVG reference track"
+          },
+          "rendering": {
+            "asset_path": "file:///workspace/track-renderer/submodules/track-description/assets/"
+          },
+          "road": {
+            "centerline": "dashed",
+            "lane_width": 0.4,
+            "left_boundary": "solid",
+            "marking_width": 0.02,
+            "rendering": {
+              "centerline_control_gap": 0.15,
+              "centerline_dashed_gap_length": 0.2,
+              "centerline_dashed_stroke_length": 0.2,
+              "centerline_double_line_spacing": 0.02,
+              "centerline_minimum_terminal_stroke_ratio": 0.25,
+              "marking_color": "#FFFFFF",
+              "surface_color": "#1A1A1A"
+            },
+            "right_boundary": "solid"
+          },
+          "root": {
+            "map_orientation": 0,
+            "port": "entry",
+            "section": "west_approach"
+          },
+          "sections": {}
+        },
         "validation": {
           "checks": [
             {
@@ -3726,7 +3781,7 @@
               "severity": "warning",
               "source": {
                 "column": 9,
-                "line": 7,
+                "line": 5,
                 "uri": "file:///workspace/track-renderer/examples/track.yaml"
               }
             }

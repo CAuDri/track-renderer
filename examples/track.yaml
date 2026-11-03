@@ -1,5 +1,3 @@
-# A compact reference drawing with ownership, physical parts and generated artwork.
-# yaml-language-server: $schema=../submodules/track-description/caudri-track.schema.yaml
 $schema: ../submodules/track-description/caudri-track.schema.yaml
 id: svg_reference
 root:

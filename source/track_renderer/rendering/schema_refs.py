@@ -1,6 +1,6 @@
 """Shorten schema references in exported provenance and validation records.
 
-The SVG's schema_uri is the shared base. Keep other resource URIs and the
+The SVG's track.$schema is the shared base. Keep other resource URIs and the
 prepared input untouched; only schema_ref fields use this convention.
 """
 

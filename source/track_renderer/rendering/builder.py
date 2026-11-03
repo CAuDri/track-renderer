@@ -18,6 +18,7 @@ from xml.etree import ElementTree as ET
 from ..diagnostics import Diagnostic
 from ..svg import SvgDocument, write_metadata
 from ..svg.geometry import map_transform
+from .indexing import collection_properties
 from .records import PhysicalPart, TrackObject
 from .schema_refs import relative_schema_refs
 from .types import GeometryData, GeometryKind, PathData, RegionData, SymbolData
@@ -33,10 +34,11 @@ def drawing_id(identifier: str) -> str:
 class DrawingBuilder:
     """Collect semantic records and emit native SVG during one rendering call."""
 
-    def __init__(self, track_id: str, schema_uri: str, map_orientation: float) -> None:
-        self.track_id = track_id
-        self.schema_uri = schema_uri
-        self.map_orientation = map_orientation
+    def __init__(self, track: dict[str, Any]) -> None:
+        self.track = collection_properties(track, ("sections", "features", "zones", "actors"))
+        self.schema_uri = track["$schema"]
+        track_id = track["id"]
+        map_orientation = track.get("root", {}).get("map_orientation", 0)
         self.complete = True
         self.background = "#1A1A1A"
         self.objects: dict[str, TrackObject] = {}
@@ -181,9 +183,7 @@ class DrawingBuilder:
             obj["provenance"] = relative_schema_refs(obj["provenance"], self.schema_uri)
 
         metadata = {
-            "track_id": self.track_id,
-            "schema_uri": self.schema_uri,
-            "map_orientation": self.map_orientation,
+            "track": self.track,
             "coordinates": {
                 "frame": "map",
                 "length_unit": "m",

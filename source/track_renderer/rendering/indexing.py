@@ -22,6 +22,23 @@ class SemanticIndex:
     sources: dict[str, dict[str, Any]]
 
 
+def collection_properties(value: dict[str, Any], collections: tuple[str, ...]) -> dict[str, Any]:
+    """Keep scalar values and collection slots whose objects are indexed separately.
+
+    Empty mappings remember where children belong. Disabled slots stay as false;
+    dropping them would let schema expansion recreate unwanted default objects.
+    """
+    properties = {}
+    for name, entry in value.items():
+        if name in collections and isinstance(entry, dict):
+            properties[name] = {
+                key: deepcopy(child) for key, child in entry.items() if not isinstance(child, dict)
+            }
+        else:
+            properties[name] = deepcopy(entry)
+    return properties
+
+
 def _index_provenance(provenance: dict[str, Any]) -> dict[str, list[tuple[str, Any]]]:
     """Group source entries by pointer prefix in their original insertion order.
 
@@ -62,16 +79,18 @@ def index_objects(
             return
 
         sources[path] = value
-        properties = {
-            k: deepcopy(v)
-            for k, v in value.items()
-            if k not in {"elements", "features", "zones", "type"}
-        }
-        if kind == "parking_lot":
-            properties.pop("spots", None)
+        properties = collection_properties(
+            value,
+            ("elements", "features", "zones", "spots")
+            if kind == "parking_lot"
+            else ("elements", "features", "zones"),
+        )
+        properties.pop("type", None)
         if value.get("type") == "parking_area":
             for lot in ("parallel_parking", "perpendicular_parking"):
-                if isinstance(properties.get("parameters"), dict):
+                if isinstance(properties.get("parameters"), dict) and isinstance(
+                    properties["parameters"].get(lot), dict
+                ):
                     properties["parameters"].pop(lot, None)
         provenance = {key: deepcopy(entry) for key, entry in provenance_by_path.get(path, ())}
 

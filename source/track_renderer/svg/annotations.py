@@ -147,9 +147,7 @@ def _parts(parts, objects):
 def validate_annotations(data: dict[str, Any]) -> None:
     """@brief Require coherent semantic records and finite, serializable values."""
     fields = (
-        "track_id",
-        "schema_uri",
-        "map_orientation",
+        "track",
         "coordinates",
         "complete",
         "validation",
@@ -166,11 +164,13 @@ def validate_annotations(data: dict[str, Any]) -> None:
     except RecursionError as exc:
         raise SvgError("Track annotations are nested too deeply") from exc
 
-    for field in ("track_id", "schema_uri"):
-        _string(data[field], "/" + field)
+    track = _mapping(data["track"], "/track")
+    for field in ("id", "$schema"):
+        _string(track.get(field), "/track/" + field)
+    root = _mapping(track.get("root"), "/track/root")
+    _number(root.get("map_orientation", 0), "/track/root/map_orientation")
     if data["coordinates"] != COORDINATES:
         _fail("/coordinates", "Expected the Map coordinate convention in meters and degrees")
-    _number(data["map_orientation"], "/map_orientation")
     if type(data["complete"]) is not bool:
         _fail("/complete", "Expected a boolean")
     _color(data["background"], "/background")

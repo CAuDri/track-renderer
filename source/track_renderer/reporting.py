@@ -27,4 +27,7 @@ def build_report(result: SvgDocument | RenderError) -> dict[str, Any]:
 
     # Read the JSON once; document accessors otherwise each decode the payload.
     metadata = result.metadata
-    return {key: metadata[key] for key in ("schema_uri", "complete", "validation", "diagnostics")}
+    return {
+        "schema_uri": metadata["track"]["$schema"],
+        **{key: metadata[key] for key in ("complete", "validation", "diagnostics")},
+    }

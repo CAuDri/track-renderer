@@ -233,7 +233,7 @@ def validate_document(root: ET.Element, *, reader: GeometryReader | None = None)
     _structure(root)
     data = read_metadata(root)
     validate_annotations(data)
-    if root.get("data-track-id") != data["track_id"]:
+    if root.get("data-track-id") != data["track"]["id"]:
         raise SvgError("SVG track ID disagrees with its metadata")
     if root.get("data-complete") != str(data["complete"]).lower():
         raise SvgError("SVG completion flag disagrees with its metadata")
@@ -287,7 +287,7 @@ def validate_document(root: ET.Element, *, reader: GeometryReader | None = None)
             raise SvgError("Resource references are supported only on use and image")
 
     worlds = root.findall(f"{{{SVG}}}g[@id='map']")
-    expected = reader.transform(map_transform(data["map_orientation"]))
+    expected = reader.transform(map_transform(data["track"]["root"].get("map_orientation", 0)))
     if len(worlds) != 1 or not all(
         math.isclose(actual, target, rel_tol=1e-9, abs_tol=1e-12)
         for actual, target in zip(

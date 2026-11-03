@@ -41,13 +41,16 @@
             }
           }
         ],
-        "map_orientation": 0,
         "objects": {
           "/sections/bend": {
             "category": "sections",
             "id": "/sections/bend",
             "parent_id": null,
             "properties": {
+              "elements": {
+                "start_box": false,
+                "starting_line": false
+              },
               "parameters": {
                 "angle": 65,
                 "direction": "left",
@@ -68,7 +71,8 @@
                   "surface_color": "#1A1A1A"
                 },
                 "right_boundary": "solid"
-              }
+              },
+              "zones": {}
             },
             "provenance": {
               "/sections/bend/elements/start_box": {
@@ -242,8 +246,36 @@
             "size": {}
           }
         },
-        "schema_uri": "file:///workspace/track-renderer/submodules/track-description/caudri-track.schema.yaml",
-        "track_id": "curved_bounds",
+        "track": {
+          "$schema": "file:///workspace/track-renderer/submodules/track-description/caudri-track.schema.yaml",
+          "connections": [],
+          "id": "curved_bounds",
+          "rendering": {
+            "asset_path": "file:///workspace/track-renderer/submodules/track-description/assets/"
+          },
+          "road": {
+            "centerline": "dashed",
+            "lane_width": 0.4,
+            "left_boundary": "solid",
+            "marking_width": 0.02,
+            "rendering": {
+              "centerline_control_gap": 0.15,
+              "centerline_dashed_gap_length": 0.2,
+              "centerline_dashed_stroke_length": 0.2,
+              "centerline_double_line_spacing": 0.02,
+              "centerline_minimum_terminal_stroke_ratio": 0.25,
+              "marking_color": "#FFFFFF",
+              "surface_color": "#1A1A1A"
+            },
+            "right_boundary": "solid"
+          },
+          "root": {
+            "map_orientation": 0,
+            "port": "entry",
+            "section": "bend"
+          },
+          "sections": {}
+        },
         "validation": {
           "checks": [
             {
