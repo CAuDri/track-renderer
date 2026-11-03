@@ -45,9 +45,6 @@ include = [
     "/docs/*.md",
     "/docs/img/*.png",
     "/docs/img/*.svg",
-    "/docs/examples/*.yaml",
-    "/docs/examples/*.svg",
-    "/docs/examples/*.py",
     "/examples/*.yaml",
     "/examples/*.py",
 ]
