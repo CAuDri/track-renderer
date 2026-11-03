@@ -290,3 +290,9 @@ The library's `load_svg()` supports its passive annotated SVG profile, including
 
 Root-level transforms are rejected so the viewport remains in the defined SVG display frame.
 Drawing edits do not update physical poses or the description; structural track changes are represented by editing the description and re-rendering.
+
+For a smaller illustration, `--no-metadata` or `drawing.to_svg(metadata=False)`
+omits the JSON payload, semantic `data-*` attributes, selection regions and unused
+IDs and wrapper groups. Visible geometry, transforms and required embedded
+artwork remain. This presentation SVG works in ordinary viewers but cannot be
+loaded with `load_svg()` or reconstructed with `to_track()`.

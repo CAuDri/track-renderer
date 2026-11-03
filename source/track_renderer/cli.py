@@ -88,6 +88,11 @@ def _make_parser() -> _ArgumentParser:
         help="omit physical SVG dimensions so previews fit their viewport",
     )
     parser.add_argument(
+        "--no-metadata",
+        action="store_true",
+        help="export presentation SVG without track annotations or selection regions",
+    )
+    parser.add_argument(
         "--dpi",
         type=float,
         default=20,
@@ -125,7 +130,11 @@ def _export_drawing(
 ) -> str | bytes:
     if format_name == "svg":
         return export_svg(
-            drawing, margin=args.margin, scale=args.scale, responsive=args.svg_responsive
+            drawing,
+            margin=args.margin,
+            scale=args.scale,
+            responsive=args.svg_responsive,
+            metadata=not args.no_metadata,
         )
     return export_jpg(drawing, dpi=args.dpi, width=args.width, margin=args.margin)
 

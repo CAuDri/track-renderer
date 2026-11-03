@@ -19,6 +19,7 @@ from ..diagnostics import Diagnostic, SvgError
 from ..io import write_file
 from .geometry import Bounds, GeometryReader, drawing_bounds, numbers
 from .metadata import SVG, read_metadata
+from .presentation import strip_metadata
 from .selection import select_sections
 from .track import to_track
 from .validation import DOCUMENT_LIMIT, parse_document, validate_document
@@ -152,16 +153,34 @@ class SvgDocument:
         """
         return to_track(self.metadata)
 
-    def to_svg(self, *, margin: float = 0.5, scale: float = 1, responsive: bool = False) -> str:
+    def to_svg(
+        self,
+        *,
+        margin: float = 0.5,
+        scale: float = 1,
+        responsive: bool = False,
+        metadata: bool = True,
+    ) -> str:
         """@return A standalone SVG, leaving this document's XML tree unchanged.
 
         @param margin Viewport padding in meters; unused for a fixed selection viewport.
         @param scale Physical scale denominator, such as 10 for a 1:10 drawing.
         @param responsive Omit physical dimensions so a viewer can fit the viewBox.
+        @param metadata Keep track annotations. False exports presentation SVG only,
+            without source records or selection aids; load_svg() cannot reload it.
         """
-        return self._export(margin=margin, scale=scale, responsive=responsive).content
+        return self._export(
+            margin=margin, scale=scale, responsive=responsive, metadata=metadata
+        ).content
 
-    def _export(self, *, margin: float, scale: float = 1, responsive: bool = False) -> _SvgExport:
+    def _export(
+        self,
+        *,
+        margin: float,
+        scale: float = 1,
+        responsive: bool = False,
+        metadata: bool = True,
+    ) -> _SvgExport:
         """Share one parsing pass between validation, viewport fitting and JPEG.
 
         Nothing is cached on the document: every call observes current XML edits.
@@ -169,10 +188,12 @@ class SvgDocument:
         another XML/metadata parse just to recover dimensions and background.
         """
         reader = GeometryReader()
-        metadata = validate_document(self.root, reader=reader)
+        annotations = validate_document(self.root, reader=reader)
         bounds = drawing_bounds(self.root, svg_coordinates=True, reader=reader)
         root = deepcopy(self.root)
         _viewport(root, bounds=bounds, margin=margin, scale=scale, responsive=responsive)
+        if not metadata:
+            strip_metadata(root)
         content = (
             '<?xml version="1.0" encoding="UTF-8"?>\n'
             + ET.tostring(root, encoding="unicode")
@@ -183,15 +204,23 @@ class SvgDocument:
         return _SvgExport(
             content,
             tuple(numbers(root.attrib["viewBox"])),
-            metadata["background"],
+            annotations["background"],
             bounds is not None,
         )
 
     def write(
-        self, path: str | Path, *, margin: float = 0.5, scale: float = 1, responsive: bool = False
+        self,
+        path: str | Path,
+        *,
+        margin: float = 0.5,
+        scale: float = 1,
+        responsive: bool = False,
+        metadata: bool = True,
     ) -> None:
         """@brief Atomically save this document as a self-contained SVG file."""
-        write_file(path, self.to_svg(margin=margin, scale=scale, responsive=responsive))
+        write_file(
+            path, self.to_svg(margin=margin, scale=scale, responsive=responsive, metadata=metadata)
+        )
 
     def select_sections(self, ids: Iterable[str], *, fit_viewbox: bool = True) -> SvgDocument:
         """@return An independent document containing sections and owned descendants.

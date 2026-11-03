@@ -101,6 +101,10 @@ The resolution of the JPEG can be controlled with `--dpi` (dots per inch) or `--
 The SVG output uses a physical 1:1 scale, so the resulting drawing can be quite large.
 For SVG viewers that do not support zooming, you can use `--scale` to reduce the size of the drawing or `--svg-responsive` to auto-fit the drawing in most viewers.
 
+Use `--no-metadata` for a smaller SVG containing only the illustration, for example
+when embedding it in a document. This omits track annotations and invisible
+selection regions; the visible result stays the same.
+
 ### 2D projections
 
 By default, the renderer draws 2D projections of 3D objects such as traffic signs, landmarks and obstacles.
@@ -131,6 +135,7 @@ track-render TRACK [options]
 | `--margin FLOAT` | Background margin around SVG or JPEG output, in meters. Nonnegative and finite; default `0.5`. |
 | `--scale FLOAT` | Physical SVG scale denominator: `10` means 1:10, default `1`. Has no effect with `--svg-responsive`. |
 | `--svg-responsive` | Omit physical SVG width and height, retaining the `viewBox` so the drawing fits its viewer. |
+| `--no-metadata` | Export SVG without any track metadata. Smaller file size but loss of semantic information. |
 | `--dpi FLOAT` | JPEG dots per inch of the full-size track, including margin. Default `20`. |
 | `--width INT` | JPEG width in pixels. Overrides DPI-based pixel sizing. Preserves the aspect ratio. |
 | `--report PATH` | Save a JSON report containing validation results and diagnostics. |
@@ -163,6 +168,7 @@ crossing.write("crossing.svg", responsive=True)
 saved = load_svg("track.svg")
 print(saved.track_id, len(saved.objects), saved.bounds())
 ```
+
 ## Output format
 
 The generated SVG contains `metadata` that describes the track and its components similar to the source track description.
